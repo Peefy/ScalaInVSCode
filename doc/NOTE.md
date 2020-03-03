@@ -624,3 +624,207 @@ object Test {
 ```
 
 ## Scala闭包
+
+闭包是一个函数，返回值依赖于声明在函数外部的一个或多个变量。
+
+闭包通常来讲可以简单的认为是可以访问一个函数里面局部变量的另外一个函数。
+
+如下面这段匿名的函数：
+
+```scala
+val multiplier = (i:Int) => i * 10  
+```
+
+函数体内有一个变量 i，它作为函数的一个参数。如下面的另一段代码：
+
+```scala
+val multiplier = (i:Int) => i * factor
+```
+
+在 multiplier 中有两个变量：i 和 factor。其中的一个 i 是函数的形式参数，在 multiplier 函数被调用时，i 被赋予一个新的值。然而，factor不是形式参数，而是自由变量，考虑下面代码：
+
+```scala
+var factor = 3  
+val multiplier = (i:Int) => i * factor  
+```
+
+这里引入一个自由变量 factor，这个变量定义在函数外面。
+
+这样定义的函数变量 multiplier 成为一个"闭包"，因为它引用到函数外面定义的变量，定义这个函数的过程是将这个自由变量捕获而构成一个封闭的函数。
+
+完整实例
+
+```scala
+object Test {  
+   def main(args: Array[String]) {  
+      println( "muliplier(1) value = " +  multiplier(1) )  
+      println( "muliplier(2) value = " +  multiplier(2) )  
+   }  
+   var factor = 3  
+   val multiplier = (i:Int) => i * factor  
+}  
+```
+
+## Scala字符串
+
+以下实例将字符串赋值给一个常量：
+
+```scala
+object Test {
+   val greeting: String = "Hello,World!"
+
+   def main(args: Array[String]) {
+      println( greeting )
+   }
+}
+```
+
+以上实例定义了变量 greeting，为字符串常量，它的类型为 String (java.lang.String)。
+
+在 Scala 中，字符串的类型实际上是 Java String，它本身没有 String 类。
+
+在 Scala 中，String 是一个不可变的对象，所以该对象不可被修改。这就意味着你如果修改字符串就会产生一个新的字符串对象。
+
+但其他对象，如数组就是可变的对象。接下来会为大家介绍常用的 java.lang.String 方法。
+
+**创建字符串**
+
+```scala
+var greetingStr1 = "Hello World!";
+var greetingStr2:String = "Hello World!";
+```
+
+不一定为字符串指定 String 类型，因为 Scala 编译器会自动推断出字符串的类型为 String。
+
+当然也可以直接显示的声明字符串为 String 类型，如下实例：
+
+```scala
+object Test {
+   val greeting: String = "Hello, World!"
+
+   def main(args: Array[String]) {
+      println( greeting )
+   }
+}
+```
+
+如果需要创建一个可以修改的字符串，可以使用 String Builder 类
+
+```scala
+object Test {
+   def main(args: Array[String]) {
+      val buf = new StringBuilder;
+      buf += 'a'
+      buf ++= "bcdef"
+      println( "buf is : " + buf.toString );
+   }
+}
+```
+
+**格式化创建字符串**
+
+```scala
+object Test {
+   def main(args: Array[String]) {
+      var floatVar = 12.456
+      var intVar = 2000
+      var stringVar = "菜鸟教程!"
+      var fs = printf("浮点型变量为 " +
+                   "%f, 整型变量为 %d, 字符串为 " +
+                   " %s", floatVar, intVar, stringVar)
+      println(fs)
+   }
+}
+```
+
+## Scala数组
+
+Scala 语言中提供的数组是用来存储固定大小的同类型元素，数组对于每一门编辑应语言来说都是重要的数据结构之一。
+
+声明数组变量并不是声明 number0、number1、...、number99 一个个单独的变量，而是声明一个就像 numbers 这样的变量，然后使用 numbers[ 0 ]、numbers[ 1 ]、...、numbers[ 99 ] 来表示一个个单独的变量。数组中某个指定的元素是通过索引来访问的。
+
+数组的第一个元素索引为0，最后一个元素的索引为元素总数减1。
+
+```scala
+var z:Array[String] = new Array[String](3)
+
+var z = new Array[String](3)
+
+var z = Array("Runoob", "Baidu", "Google")
+```
+
+**处理数组**
+
+数组的元素类型和数组的大小都是确定的，所以当处理数组元素时候，我们通常使用基本的 for 循环。
+
+以下实例演示了数组的创建，初始化等处理过程：
+
+```scala
+object Test {
+   def main(args: Array[String]) {
+      var myList = Array(1.9, 2.9, 3.4, 3.5)
+      
+      // 输出所有数组元素
+      for ( x <- myList ) {
+         println( x )
+      }
+
+      // 计算数组所有元素的总和
+      var total = 0.0;
+      for ( i <- 0 to (myList.length - 1)) {
+         total += myList(i);
+      }
+      println("总和为 " + total);
+
+      // 查找数组中的最大元素
+      var max = myList(0);
+      for ( i <- 1 to (myList.length - 1) ) {
+         if (myList(i) > max) max = myList(i);
+      }
+      println("最大值为 " + max);
+    
+   }
+}
+```
+
+**多维数组**
+
+多维数组一个数组中的值可以是另一个数组，另一个数组的值也可以是一个数组。矩阵与表格是我们常见的二维数组。
+
+以上是一个定义了二维数组的实例：
+
+```scala
+var myMatrix = ofDim[Int](3,3)
+```
+
+实例中数组中包含三个数组元素，每个数组元素又含有三个值。
+
+接下来来看一个二维数组处理的完整实例：
+
+```scala
+import Array._
+
+object Test {
+   def main(args: Array[String]) {
+      var myMatrix = ofDim[Int](3,3)
+      
+      // 创建矩阵
+      for (i <- 0 to 2) {
+         for ( j <- 0 to 2) {
+            myMatrix(i)(j) = j;
+         }
+      }
+      
+      // 打印二维阵列
+      for (i <- 0 to 2) {
+         for ( j <- 0 to 2) {
+            print(" " + myMatrix(i)(j));
+         }
+         println();
+      }
+    
+   }
+}
+```
+
+
